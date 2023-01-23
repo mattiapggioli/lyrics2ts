@@ -127,7 +127,10 @@ def compute_avg_phoneme_frequency(tokens):
         phoneme_frequencies = [phonemes.count(
             meta_phoneme) for meta_phoneme in phonemes]
         # Compute mean
-        avg_phoneme_frequency = sum(phoneme_frequencies)/len(phoneme_frequencies)
+        try:
+            avg_phoneme_frequency = sum(phoneme_frequencies)/len(phoneme_frequencies)
+        except ZeroDivisionError:
+            avg_phoneme_frequency = 0    
     else:
         avg_phoneme_frequency = 0
     return avg_phoneme_frequency
@@ -247,6 +250,7 @@ def lyrics_statistics(lyrics):
         stats['adjectives_count'].append(pos_counts['ADJ'])
         stats['adverbs_count'].append(pos_counts['ADV'])
     return stats
+
 
 fake_lyrics = [
     "I wake up every morning, with the sun in my eyes",
