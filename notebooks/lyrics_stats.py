@@ -104,9 +104,9 @@ def compute_avg_token_frequency(tokens, all_tokens):
         avg_token_frequency = 0
     return avg_token_frequency
 
-def compute_avg_phoneme_frequency(tokens):
+def compute_alliteration_score(tokens):
     """
-    Compute the average frequency of the phonemes of the given list of tokens.
+    Compute the alliteration score of the given list of tokens.
     It uses Metaphone phonetic algorithm.
 
     Parameters
@@ -117,23 +117,18 @@ def compute_avg_phoneme_frequency(tokens):
     Returns
     -------
     float
-        The average frequency of the phonemes. Returns 0 if the list of tokens is empty.
+        The alliteration score for the given list of tokens.
+
     """
+    alliteration_score = 0
     if tokens:
         # Get sequence of phonemes as a list
         phonemes = [meta_phoneme for token in tokens
             for meta_phoneme in doublemetaphone(token)[0]]
-        # Compute frequencies
-        phoneme_frequencies = [phonemes.count(
-            meta_phoneme) for meta_phoneme in phonemes]
-        # Compute mean
-        try:
-            avg_phoneme_frequency = sum(phoneme_frequencies)/len(phoneme_frequencies)
-        except ZeroDivisionError:
-            avg_phoneme_frequency = 0    
-    else:
-        avg_phoneme_frequency = 0
-    return avg_phoneme_frequency
+        if phonemes:
+            unique_phonemes = list(set(phonemes))
+            alliteration_score = (1 - len(unique_phonemes)/len(phonemes)) * len(phonemes)
+    return alliteration_score
 
 def count_uni_pos_tags(tagged_tokens):
     """
@@ -149,14 +144,22 @@ def count_uni_pos_tags(tagged_tokens):
     -------
     dict
         A dictionary with the universal POS tags as keys and the counts as values.
+    Notes
+    -----
+    The input tagged tokens are first mapped to the universal tagset of Petrov, Das, & McDonald.
+    Interjections (tagged with UH in the PTB tagset) are kept distinct and mapped to INTJ.
+    The resulting dictionary includes the counts of the following universal POS tags,
+    including interjections:
+        VERB, NOUN, PRON, ADJ, ADV, ADP, CONJ, DET, NUM, PRT, X, ., INTJ
     """
     # Map NLTK tokens in universal tagset of Petrov, Das, & McDonald
     tagged_tokens = [(token, map_tag('en-ptb', 'universal', tag))
+        if tag != 'UH' else (token, 'INTJ')
         for token, tag in tagged_tokens]
     # Get sequence of POS tags as a list
     mapped_pos_tags = [tag for _, tag in tagged_tokens]
     uni_pos_tags = ['VERB', 'NOUN', 'PRON', 'ADJ', 'ADV', 'ADP',
-                    'CONJ', 'DET', 'NUM', 'PRT', 'X', '.']
+                    'CONJ', 'DET', 'NUM', 'PRT', 'X', '.', 'INTJ']
     uni_pos_counts = {}
     for uni_pos_tag in uni_pos_tags:
         uni_pos_counts[uni_pos_tag] = mapped_pos_tags.count(uni_pos_tag)
@@ -201,16 +204,17 @@ def lyrics_statistics(lyrics):
         'verse_ttr': [],
         'avg_token_frequency': [],
         'avg_phoneme_frequency': [],
-        'verbs_count': [],
-        'nouns_count': [],
-        'adjectives_count': [],
-        'adverbs_count': [],
+        'VERB_count': [],
+        'NOUN_count': [],
+        'ADJ_count': [],
+        'ADV_count': [],
+        'INTJ_count': []
     }
     # Get all tokens before beginning iteration
     all_tokens = [token for verse in lyrics for token in tokenize_sentence(
         verse, lowercase=True, alpha_filter=True)]
     # Iterate trough verses
-    for verse in lyrics:        
+    for verse in lyrics:
         # Compute stats that require using textstat and not tokenization
         verse_length = lexicon_count(verse, removepunct=True)
         stats['verse_length'].append(verse_length)
@@ -239,20 +243,22 @@ def lyrics_statistics(lyrics):
             filtered_tokens, all_tokens)
         stats['avg_token_frequency'].append(avg_token_frequency)
         # Compute avg phoneme frequency
-        avg_phoneme_frequency = compute_avg_phoneme_frequency(filtered_tokens)
+        avg_phoneme_frequency = compute_alliteration_score(filtered_tokens)
         stats['avg_phoneme_frequency'].append(avg_phoneme_frequency)
 
         # Count parts-of-speech
         tagged_tokens = pos_tag(tokenize_sentence(verse))
         pos_counts = count_uni_pos_tags(tagged_tokens)
-        stats['verbs_count'].append(pos_counts['VERB'])
-        stats['nouns_count'].append(pos_counts['NOUN'])
-        stats['adjectives_count'].append(pos_counts['ADJ'])
-        stats['adverbs_count'].append(pos_counts['ADV'])
+        stats['VERB_count'].append(pos_counts['VERB'])
+        stats['NOUN_count'].append(pos_counts['NOUN'])
+        stats['ADJ_count'].append(pos_counts['ADJ'])
+        stats['ADV_count'].append(pos_counts['ADV'])
+        stats['INTJ_count'].append(pos_counts['INTJ'])
     return stats
 
 
-fake_lyrics = [
+fake_lyrics = [    
+    "Unstoppable, yeah, unstoppable, yeah, ah",
     "I wake up every morning, with the sun in my eyes",
     "I stumble out of bed, and I hit the ground running",
     "I've got a lot on my plate, but I don't mind the load",
@@ -271,6 +277,7 @@ fake_lyrics = [
     "I'm living for today, and I'm chasing my dreams",
     "I've got my eyes on the prize, and I won't let it go",
     "I'll keep on fighting, with all my might and my mojo"
+    "I'll keep on fighting, with all my might and my mojo",
 ]
 
 if __name__ == '__main__':
