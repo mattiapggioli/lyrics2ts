@@ -120,7 +120,7 @@ lru-dict==1.1.8
 lxml==4.9.2
 Markdown==3.3.4
 MarkupSafe==2.1.1
-matplotlib==3.6.2
+matplotlib==3.6.0
 matplotlib-inline==0.1.6
 mccabe==0.7.0
 Metaphone==0.6
