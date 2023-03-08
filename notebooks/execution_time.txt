@@ -1,0 +1,75 @@
+Script: /home/mattiapggioli/lyrics2ts/notebooks/features_ts.py
+Texts processed: 1775
+Execution time: 410.53 seconds, 6.84 minutes, 0.11 hours
+Directory path: /home/mattiapggioli/lyrics2ts/data/classification/20ng
+--------------------------------------------------
+Script: /home/mattiapggioli/lyrics2ts/notebooks/features_ts.py
+Texts processed: 7512
+Execution time: 855.07 seconds, 14.25 minutes, 0.24 hours
+Directory path: /home/mattiapggioli/lyrics2ts/data/classification/movie-plots
+--------------------------------------------------
+Script: /home/mattiapggioli/lyrics2ts/notebooks/features_ts.py
+Texts processed: 24000
+Execution time: 1212.81 seconds, 20.21 minutes, 0.34 hours
+Directory path: /home/mattiapggioli/lyrics2ts/data/classification/pp-rc
+--------------------------------------------------
+Script: /home/mattiapggioli/lyrics2ts/notebooks/features_ts.py
+Texts processed: 36000
+Execution time: 2467.65 seconds, 41.13 minutes, 0.69 hours
+Directory path: /home/mattiapggioli/lyrics2ts/data/classification/pp-rc-rp
+--------------------------------------------------
+Script: /home/mattiapggioli/lyrics2ts/notebooks/features_ts.py
+Texts processed: 24000
+Execution time: 1778.90 seconds, 29.65 minutes, 0.49 hours
+Directory path: /home/mattiapggioli/lyrics2ts/data/classification/rc-rp
+--------------------------------------------------
+Script: /home/mattiapggioli/lyrics2ts/notebooks/features_ts.py
+Texts processed: 25000
+Execution time: 1128.91 seconds, 18.82 minutes, 0.31 hours
+Directory path: /home/mattiapggioli/lyrics2ts/data/classification/rock-subgenres
+--------------------------------------------------
+Script: /home/mattiapggioli/lyrics2ts/notebooks/sentiment_ts.py
+Texts processed: 1775
+Execution time: 16.51 seconds, 0.28 minutes, 0.00 hours
+Directory path: /home/mattiapggioli/lyrics2ts/data/classification/20ng
+--------------------------------------------------
+Script: /home/mattiapggioli/lyrics2ts/notebooks/sentiment_ts.py
+Texts processed: 7512
+Execution time: 53.25 seconds, 0.89 minutes, 0.01 hours
+Directory path: /home/mattiapggioli/lyrics2ts/data/classification/movie-plots
+--------------------------------------------------
+Script: /home/mattiapggioli/lyrics2ts/notebooks/sentiment_ts.py
+Texts processed: 24000
+Execution time: 87.73 seconds, 1.46 minutes, 0.02 hours
+Directory path: /home/mattiapggioli/lyrics2ts/data/classification/pp-rc
+--------------------------------------------------
+Script: /home/mattiapggioli/lyrics2ts/notebooks/sentiment_ts.py
+Texts processed: 36000
+Execution time: 162.79 seconds, 2.71 minutes, 0.05 hours
+Directory path: /home/mattiapggioli/lyrics2ts/data/classification/pp-rc-rp
+--------------------------------------------------
+Script: /home/mattiapggioli/lyrics2ts/notebooks/sentiment_ts.py
+Texts processed: 24000
+Execution time: 111.61 seconds, 1.86 minutes, 0.03 hours
+Directory path: /home/mattiapggioli/lyrics2ts/data/classification/rc-rp
+--------------------------------------------------
+Script: /home/mattiapggioli/lyrics2ts/notebooks/sentiment_ts.py
+Texts processed: 25000
+Execution time: 83.22 seconds, 1.39 minutes, 0.02 hours
+Directory path: /home/mattiapggioli/lyrics2ts/data/classification/rock-subgenres
+--------------------------------------------------
+Script: /home/mattiapggioli/lyrics2ts/notebooks/sbert_ts.py
+Texts processed: 1775
+Execution time: 3924.82 seconds, 65.41 minutes, 1.09 hours
+Directory path: /home/mattiapggioli/lyrics2ts/data/classification/20ng
+--------------------------------------------------
+Script: /home/mattiapggioli/lyrics2ts/notebooks/sbert_ts.py
+Texts processed: 7512
+Execution time: 10537.01 seconds, 175.62 minutes, 2.93 hours
+Directory path: /home/mattiapggioli/lyrics2ts/data/classification/movie-plots
+--------------------------------------------------
+Script: /home/mattiapggioli/lyrics2ts/notebooks/sbert_ts.py
+Texts processed: 24000
+Execution time: 13282.24 seconds, 221.37 minutes, 3.69 hours
+Directory path: /home/mattiapggioli/lyrics2ts/data/classification/pp-rc
+--------------------------------------------------
