@@ -127,7 +127,7 @@ def compute_alliteration_score(tokens):
             for meta_phoneme in doublemetaphone(token)[0]]
         if phonemes:
             unique_phonemes = list(set(phonemes))
-            alliteration_score = (1 - len(unique_phonemes)/len(phonemes)) * len(phonemes)
+            alliteration_score = 1 - len(unique_phonemes)/len(phonemes)
     return alliteration_score
 
 def count_uni_pos_tags(tagged_tokens):
@@ -171,39 +171,39 @@ def lyrics_statistics(lyrics):
     Compute various statistics for a given lyrics.
 
     The statistics include:
-    - verse length
+    - sentence length
     - count of monosyllabic words
     - count of polysyllabic words
     - average token length
     - readability score
-    - normalized verse frequency
-    - type-token ratio (TTR) of each verse
-    - average frequency of each token in the verse (computed on the entire lyrics)
-    - average frequency of each phoneme in the verse
-    - count of verbs, nouns, adjectives, and adverbs in each verse
+    - normalized sentence frequency
+    - type-token ratio (TTR) of each sentence
+    - average frequency of each token in the sentence (computed on the entire lyrics)
+    - average frequency of each phoneme in the sentence
+    - count of verbs, nouns, adjectives, and adverbs in each sentence
 
     Parameters
     ----------
     lyrics: list of str
-        The lyrics, where each element is a verse.
+        The lyrics, where each element is a sentence.
 
     Returns
     -------
     dict
         A dictionary with the statistics as keys and lists of values as values.
-        The lists of values correspond to the statistics of each verse in the lyrics.
+        The lists of values correspond to the statistics of each sentence in the lyrics.
     """
     # Initialize dict with all features
     stats = {
-        'verse_length': [],
+        'sentence_length': [],
         'monosyl_words_count': [],
         'polysyl_words_count': [],
         'avg_token_length': [],
         'readability_score': [],
-        'normalized_verse_frequency': [],
-        'verse_ttr': [],
+        'normalized_sentence_frequency': [],
+        'sentence_ttr': [],
         'avg_token_frequency': [],
-        'avg_phoneme_frequency': [],
+        'alliteration_score': [],
         'VERB_count': [],
         'NOUN_count': [],
         'ADJ_count': [],
@@ -211,43 +211,42 @@ def lyrics_statistics(lyrics):
         'INTJ_count': []
     }
     # Get all tokens before beginning iteration
-    all_tokens = [token for verse in lyrics for token in tokenize_sentence(
-        verse, lowercase=True, alpha_filter=True)]
-    # Iterate trough verses
-    for verse in lyrics:
+    all_tokens = [token for sentence in lyrics for token in tokenize_sentence(
+        sentence, lowercase=True, alpha_filter=True)]
+    # Iterate trough sentences
+    for sentence in lyrics:
         # Compute stats that require using textstat and not tokenization
-        verse_length = lexicon_count(verse, removepunct=True)
-        stats['verse_length'].append(verse_length)
-        monosyl_words_count = polysyllabcount(verse)
+        sentence_length = lexicon_count(sentence, removepunct=True)
+        stats['sentence_length'].append(sentence_length)
+        monosyl_words_count = polysyllabcount(sentence)
         stats['monosyl_words_count'].append(monosyl_words_count)
-        polysyl_words_count = monosyllabcount(verse)
+        polysyl_words_count = monosyllabcount(sentence)
         stats['polysyl_words_count'].append(polysyl_words_count)
         # Compute readability scores with textstats
-        readability_score = dale_chall_readability_score(verse)
+        readability_score = dale_chall_readability_score(sentence)
         stats['readability_score'].append(readability_score)
-        normalized_verse_frequency = lyrics.count(verse)/len(lyrics)
-        stats['normalized_verse_frequency'].append(normalized_verse_frequency)
+        normalized_sentence_frequency = lyrics.count(sentence)/len(lyrics)
+        stats['normalized_sentence_frequency'].append(normalized_sentence_frequency)
         # Compute stats that require tokenization (NLTK)
         # Tokenize sentence doing lowercasing
         # and excluding punctuation and non alphabetic characters
         filtered_tokens = tokenize_sentence(
-            verse, lowercase=True, alpha_filter=True)
+            sentence, lowercase=True, alpha_filter=True)
         # Compute avg token length
         avg_token_length = compute_avg_token_length(filtered_tokens)
         stats['avg_token_length'].append(avg_token_length)
-        # Compute verse TTR of the verse (richness)
-        verse_ttr = compute_ttr(filtered_tokens)
-        stats['verse_ttr'].append(verse_ttr)
+        # Compute sentence TTR of the sentence (richness)
+        sentence_ttr = compute_ttr(filtered_tokens)
+        stats['sentence_ttr'].append(sentence_ttr)
         # Compute avg token frequency
         avg_token_frequency = compute_avg_token_frequency(
             filtered_tokens, all_tokens)
         stats['avg_token_frequency'].append(avg_token_frequency)
-        # Compute avg phoneme frequency
-        avg_phoneme_frequency = compute_alliteration_score(filtered_tokens)
-        stats['avg_phoneme_frequency'].append(avg_phoneme_frequency)
-
+        # Compute alliteration score
+        alliteration_score = compute_alliteration_score(filtered_tokens)
+        stats['alliteration_score'].append(alliteration_score)
         # Count parts-of-speech
-        tagged_tokens = pos_tag(tokenize_sentence(verse))
+        tagged_tokens = pos_tag(tokenize_sentence(sentence))
         pos_counts = count_uni_pos_tags(tagged_tokens)
         stats['VERB_count'].append(pos_counts['VERB'])
         stats['NOUN_count'].append(pos_counts['NOUN'])
