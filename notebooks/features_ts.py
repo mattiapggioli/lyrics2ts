@@ -62,7 +62,7 @@ def main(file_path):
     texts = df['text'].apply(ast.literal_eval)    
     y = np.array(df['class'])
     txt_train = train_test_split(
-        texts, y, test_size=0.20, random_state=42)[0]    
+        texts, y, test_size=0.20, random_state=42, stratify=y)[0]    
     # Create flat X_train of features by timestamp 
     X_train = np.array([sentence for text in [get_features(
         text) for text in tqdm(txt_train)] for sentence in text])

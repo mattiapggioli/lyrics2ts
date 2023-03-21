@@ -73,7 +73,7 @@ def main(file_path, use_sample):
     texts = df['text'].apply(ast.literal_eval)    
     y = np.array(df['class'])    
     txt_train = train_test_split(
-        texts, y, test_size=0.20, random_state=42)[0].tolist()
+        texts, y, test_size=0.20, random_state=42, stratify=y)[0].tolist()
     if use_sample:        
         txt_train = extract_elements(txt_train)
     sentence_embeddings = model.encode(txt_train)    
